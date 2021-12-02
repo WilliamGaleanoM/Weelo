@@ -1,0 +1,16 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "dd424b4a-8161-4378-96c4-fe1a3a25c419": {
+      "ProjectGuid": "dd424b4a-8161-4378-96c4-fe1a3a25c419",
+      "DisplayName": "Weelo",
+      "ColorIndex": 0
+    },
+    "867b7743-69e0-442e-b5fb-13bfdd4be17a": {
+      "ProjectGuid": "867b7743-69e0-442e-b5fb-13bfdd4be17a",
+      "DisplayName": "Test",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
