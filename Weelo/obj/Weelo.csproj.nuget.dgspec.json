@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Prueba\\Weelo\\Weelo\\Weelo.csproj": {}
+    "D:\\Desarrollos\\Weelo\\Weelo\\Weelo.csproj": {}
   },
   "projects": {
-    "D:\\Prueba\\Weelo\\Weelo\\Weelo.csproj": {
+    "D:\\Desarrollos\\Weelo\\Weelo\\Weelo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Prueba\\Weelo\\Weelo\\Weelo.csproj",
+        "projectUniqueName": "D:\\Desarrollos\\Weelo\\Weelo\\Weelo.csproj",
         "projectName": "Weelo",
-        "projectPath": "D:\\Prueba\\Weelo\\Weelo\\Weelo.csproj",
-        "packagesPath": "C:\\Users\\williamgaleano\\.nuget\\packages\\",
-        "outputPath": "D:\\Prueba\\Weelo\\Weelo\\obj\\",
+        "projectPath": "D:\\Desarrollos\\Weelo\\Weelo\\Weelo.csproj",
+        "packagesPath": "C:\\Users\\wigam\\.nuget\\packages\\",
+        "outputPath": "D:\\Desarrollos\\Weelo\\Weelo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\williamgaleano\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wigam\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -68,6 +68,10 @@
               "target": "Package",
               "version": "[5.0.12, )"
             },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.13.2, )"
+            },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
               "version": "[1.2.13, )"
@@ -91,7 +95,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

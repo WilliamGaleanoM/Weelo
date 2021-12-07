@@ -1,0 +1,30 @@
+﻿@{ 
+    var ModalName = ViewBag.ModalName ?? "ModalMensajes";
+    var BodyName = ViewBag.BodyName ?? "MsgModal";
+    var EstiloBtn = ViewBag.StyleBtn ?? "Cerrar";
+}
+
+<div id="@ModalName" class="modal fade" role="dialog" style="height:50%">
+    <div class="modal-dialog" style="font-family:Futura">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: red">
+                <button type="button" class="close ClosModalMsg" data-dismiss="modal">&times;</button>
+                <img src="~/Content/images/logo_horizontal.png" style="height:60px" />
+            </div>
+            <div class="modal-body " id="MsgModals" style="text-align:center">
+                <p id="@BodyName" class="black" style="font-size: 18px;"></p>
+            </div>
+            <div class="modal-footer">
+                @if (EstiloBtn == "Cerrar")
+                {
+                    <button type="button" class="btn btn-default ClosModalMsg" data-dismiss="modal">Cerrar</button>
+                }
+                else if(EstiloBtn == "YN")
+                {
+                    <button type="button" class="btn btn-primary ClosModalMsg btnYes" data-dismiss="modal">Si</button>
+                    <button type="button" class="btn btn-danger  ClosModalMsg btnNot" data-dismiss="modal">No</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

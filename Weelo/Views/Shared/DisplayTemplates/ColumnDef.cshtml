@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Object>
+
+            @{
+                Boolean BotonesInicio = ViewBag.BotonesInicio ?? false;
+                Boolean ConBotones = ViewBag.ConBotones ?? true;
+                Boolean DefineTamaños = ViewBag.DefineTamaños ?? true;
+                var Modelo = ViewBag.Modelo ?? Model;
+                string Orden = ViewBag.Orden??"";
+            }
+
+            @{                               
+				string ClaseModel = Modelo.GetType().FullName.Replace("System.Data.Entity.Infrastructure.DbQuery`1", "").Replace("[", "").Split(',')[0];
+				int index = 0;
+				if (ClaseModel.Contains("System.Collections.Generic.List`1"))
+				{
+					ClaseModel = ClaseModel.Replace("System.Collections.Generic.List`1", "");
+				}
+				var type = (from t in AppDomain.CurrentDomain.GetAssemblies() where t.GetType(ClaseModel, false) != null select t.GetType(ClaseModel, false)).FirstOrDefault();
+
+            }       
+
+            @if (BotonesInicio && ConBotones)
+            {
+                @Html.Raw("{'targets': " + index + ", \n" +
+                 "'searchable': false,\n" +
+                 "'width': 140,\n" +
+                 "'className': 'dt-center',\n" +
+                 "'mDataProp':'Botones'},")
+                 index++;
+            }
+
+            @foreach (var it in type.GetProperties())
+            {
+                IEnumerable<KeyValuePair<string, System.Reflection.CustomAttributeData>> key_pro = (from p in it.CustomAttributes
+                                                                                                    select new KeyValuePair<string, System.Reflection.CustomAttributeData>(p.AttributeType.Name, p));
+                string Name = null;
+                bool Show = true;
+
+                System.Reflection.CustomAttributeData DisplayAttribute = key_pro.SingleOrDefault(m => m.Key == "DisplayAttribute").Value;
+                if (DisplayAttribute != null)
+                {
+                    var valor = (from a in DisplayAttribute.NamedArguments
+                                 where a.MemberName == "AutoGenerateField"
+                                 select a.TypedValue.Value).FirstOrDefault();
+                    Show = (bool)(valor ?? true);
+                    if (ViewBag.Include != null)
+                    {
+                        string[] Include = ViewBag.Include;
+                        if (Include.Contains(it.Name))
+                        {
+                            Show = true;
+                        }
+                    }
+                    if (ViewBag.Exclude != null)
+                    {
+                        string[] Exclude = ViewBag.Exclude;
+                        if (Exclude.Contains(it.Name))
+                        {
+                            Show = false;
+                        }
+                    }
+                }
+                Name = it.Name;
+
+                int? largo = null;
+
+                if(DefineTamaños)
+                {
+                    largo = (new string[] { "System.Decimal", "System.Int" }.Contains(it.PropertyType.ToString())) ? (int?)100 : null;
+                    largo = (it.PropertyType.ToString() == "System.DateTime") ? 80 : largo;
+
+                    System.Reflection.CustomAttributeData StringLengt = key_pro.SingleOrDefault(m => m.Key == "StringLengthAttribute").Value;
+                    if (StringLengt != null)
+                    {
+                        var longitud = StringLengt.ConstructorArguments[0].Value;
+                        largo = (int)(longitud ?? 0) * 3;
+                        if(largo >300)
+                        {
+                            largo = 300;
+                        }
+                    }
+                }
+
+                if (Show)
+                {
+                    if (Orden == "")
+                    {
+                        @Html.Raw("{'name' : '" + @Name + "', \n'targets': " + index + ", \n'mDataProp':'" + @Name + "' " + (largo!=null ? ", \n 'width':" + largo : "") + "}, \n");
+                    }else
+                    {
+                        var CamposO = Orden.Split(',');
+                        for (int i = 0; i < CamposO.Length; i++)
+                        {
+                            if (CamposO[i] == Name)
+                            {
+                                int IndexC = BotonesInicio && ConBotones ? i + 1 : i;
+                                @Html.Raw("{'name' : '" + @Name + "', \n'targets': " + IndexC + ", \n'mDataProp':'" + @Name + "'}, \n");
+                                i = CamposO.Length + 1;
+                            }
+                        }
+
+                    }
+
+                    index++;
+                }
+
+            }
+
+            @if (!BotonesInicio && ConBotones)
+            {
+                @Html.Raw("{'targets': " + index + ", \n" +
+                        "'searchable': false,\n" +
+                        "'width': 140,\n" +
+                        "'className': 'dt-center',\n" +
+                        "'mDataProp':'Botones'},")
+            }

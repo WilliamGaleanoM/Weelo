@@ -6,7 +6,7 @@ namespace Weelo
 {
     public class UserRepository : IUserRepository
     {
-        private readonly List<UserDTO> users = new List<UserDTO>();
+        private readonly List<UserDTO> users = new();
         public UserRepository()
         {
             users.Add(new UserDTO { UserName = "william", Password = "William654321", Role = "manager" });

@@ -1,0 +1,122 @@
+﻿@model PruebaEmpleados.Models.TableParams
+@*Dictionary<string, object>*@
+
+@{
+	Layout = null;
+	string llave = Model.llave;
+	string llaveCustom = Model.llaveCustom;
+	string id = Model.id;
+	string entity_id = Model.entity_id;
+	string _Controller = Context.Request.RouteValues["controller"].ToString(); //HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+	//var UserName = ViewContext.Controller.getCurrenUserName();   
+
+	//foreach (KeyValuePair<string,object> it in Model)
+	//{
+	//    llave += string.Concat( it.Key ,"=" , it.Value.ToString(),"&");
+	//    if(it.Key=="id_cc")
+	//    {
+	//        id_cc = "id_cc=" + it.Value.ToString();
+	//    }
+	//}
+
+	//llave = llave.Trim().Remove(llave.Trim().Length - 1);
+}
+
+@{
+<div class="row">
+	<div class="btn-group center">
+
+		@if (Model.ShowEdit)
+		{
+			<a href="@Url.Action(Model.ActionEdit, Model.ControllerEdit??_Controller)?@llave&parent=@Model.ParentPage" title="@Model.TitleEdit" data-value="@entity_id" data-pk="@llave" class="btn button-xs btnEdit btnEdit-@entity_id">
+				@if (Model.ClassEdit == null)
+				{
+					<i class="fa fa-edit blue"></i>
+				}
+				else
+				{
+					<i class="@Model.ClassEdit"></i>
+				}
+			</a>
+		}
+
+		@if (Model.ShowHistory)
+		{
+			<a href="@Url.Action(Model.ActionHistory, Model.ControllerHistory ?? _Controller )?@llave&parent=@Model.ParentPage" title="@Model.TitleHistory" data-value="@entity_id" data-pk="@llave" class="btn button-xs btnHistory btnHistory-@entity_id">
+				@if (Model.ClassHistory == null)
+				{
+					<i class="fa fa-history purple"></i>
+				}
+				else
+				{
+					<i class="@Model.ClassHistory"></i>
+				}
+
+			</a>
+		}
+
+		@if (Model.ShowDetails)
+		{
+			<a href="@Url.Action(Model.ActionDetails, Model.ControllerDetails ?? _Controller)?@llave&parent=@Model.ParentPage" title="@Model.TitleDetails" data-value="@entity_id" data-pk="@llave" class="btn button-xs btnDetails btnDetails-@entity_id" @(Model.NewPageDetails ? "target='_blank'" : "")>
+				@if (Model.ClassDetails == null)
+				{
+					<i class="fa fa-eye green"></i>
+				}
+				else
+				{
+					<i class="@Model.ClassDetails"></i>
+				}
+			</a>
+		}
+
+		@if (Model.ShowDelete)
+		{
+			<a href="@Url.Action(Model.ActionDelete, Model.ControllerDelete ?? _Controller)?@llave&parent=@Model.ParentPage" title="@Model.TitleDelete" data-value="@entity_id" data-pk="@llave" class="btn button-xs btnDelete btnDelete-@entity_id">
+				@if (Model.ClassDelete == null)
+				{
+					<i class="fa fa-trash-o red"></i>
+					<input id="valor" type="hidden" value="@llave" />
+				}
+				else
+				{
+					<i class="@Model.ClassDelete"></i>
+				}
+
+			</a>
+		}
+
+		@if (Model.ShowCustom)
+		{
+			@if (Model.FunctionCustom == false)
+			{
+				<a href="@Url.Action(Model.ActionCustom, Model.ControllerCustom ?? _Controller)?@llave&parent=@Model.ParentPage" title="@Model.TitleCustom" class="btn button-xs" @(Model.NewPageCustom ? "target='_blank'" : "")>
+					@if (Model.ClassCustom == null)
+					{
+						<i class="fa fa-sticky-note-o"></i>
+					}
+					else
+					{
+						<i class="@Model.ClassCustom"></i>
+					}
+				</a>
+			}
+			else
+			{
+				<a href="#" onclick="return CustomButtonClic(this, '@Url.Action(Model.ActionCustom, (Model.ControllerCustom ?? _Controller))', '@(Model.ControllerCustom ?? _Controller)', @llaveCustom)" data-llave="@llaveCustom" data-action="@Url.Action(Model.ActionCustom, (Model.ControllerCustom ?? _Controller))" data-controlle="@(Model.ControllerCustom ?? _Controller)" title="@Model.TitleCustom" class="btn button-xs" @(Model.NewPageCustom ? "target='_blank'" : "")>
+					@if (Model.ClassCustom == null)
+					{
+						<i class="fas fa-sticky-note"></i>
+					}
+					else
+					{
+						<i class="@Model.ClassCustom"></i>
+					}
+				</a>
+			}
+		}
+
+
+	</div>
+</div>
+        }

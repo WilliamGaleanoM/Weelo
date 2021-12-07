@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Prueba\\Weelo\\Test\\Test.csproj": {}
+    "D:\\Desarrollos\\Weelo\\Test\\Test.csproj": {}
   },
   "projects": {
-    "D:\\Prueba\\Weelo\\Test\\Test.csproj": {
+    "D:\\Desarrollos\\Weelo\\Test\\Test.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Prueba\\Weelo\\Test\\Test.csproj",
+        "projectUniqueName": "D:\\Desarrollos\\Weelo\\Test\\Test.csproj",
         "projectName": "Test",
-        "projectPath": "D:\\Prueba\\Weelo\\Test\\Test.csproj",
-        "packagesPath": "C:\\Users\\williamgaleano\\.nuget\\packages\\",
-        "outputPath": "D:\\Prueba\\Weelo\\Test\\obj\\",
+        "projectPath": "D:\\Desarrollos\\Weelo\\Test\\Test.csproj",
+        "packagesPath": "C:\\Users\\wigam\\.nuget\\packages\\",
+        "outputPath": "D:\\Desarrollos\\Weelo\\Test\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\williamgaleano\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\wigam\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -72,7 +72,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

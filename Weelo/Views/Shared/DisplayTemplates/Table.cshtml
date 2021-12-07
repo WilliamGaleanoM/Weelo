@@ -1,0 +1,190 @@
+﻿@model IEnumerable<Object>
+
+@{ 
+    Boolean BotonesInicio = ViewBag.BotonesInicio ?? false;
+    Boolean ConBotones = ViewBag.ConBotones ?? true;
+    Boolean esModal = ViewBag.Modal ?? false;
+    string Clase = "table table-striped table-bordered table-responsive display";
+    var Modelo = ViewBag.Modelo ?? Model;
+    string Orden = ViewBag.Orden ?? "";
+    int IndexC = 0;
+    if ((ViewBag.nowrap??false) == true)
+    {
+        Clase = "display compact table nowrap table-bordered";
+    }
+    if ((ViewBag.compact ?? false) == true && (ViewBag.nowrap ?? false) == false)
+    {
+        Clase = "display compact table table-bordered dataTables_wrapper";
+    }
+}
+<table id="table-list@(esModal?"_Mod":"")" class="@Clase" style="width: 100%;" >
+    <thead>
+        <tr>
+            @{                               
+				string ClaseModel = Modelo.GetType().FullName.Replace("System.Data.Entity.Infrastructure.DbQuery`1", "").Replace("[", "").Split(',')[0];
+				if (ClaseModel.Contains("System.Collections.Generic.List`1"))
+				{
+					ClaseModel = ClaseModel.Replace("System.Collections.Generic.List`1", "");
+				}
+
+				var type = (from t in AppDomain.CurrentDomain.GetAssemblies() where t.GetType(ClaseModel, false) != null select t.GetType(ClaseModel, false)).FirstOrDefault();
+			
+				//var type = Type.GetType(ClaseModel, false);
+            }
+
+        
+
+            @if (BotonesInicio && ConBotones)
+            {
+                <th data-sortable="false"></th>
+            }
+
+            @foreach (var it in type.GetProperties())
+            {
+                IEnumerable<KeyValuePair<string, System.Reflection.CustomAttributeData>> key_pro = (from p in it.CustomAttributes
+                                                                                                    select new KeyValuePair<string, System.Reflection.CustomAttributeData>(p.AttributeType.Name, p));
+
+                string Name = null;
+                bool Show = true;
+                bool isKey = (key_pro.SingleOrDefault(m => m.Key == "KeyAttribute").Value) != null;
+                System.Reflection.CustomAttributeData DisplayAttribute = key_pro.SingleOrDefault(m => m.Key == "DisplayAttribute").Value;
+                if (DisplayAttribute != null)
+                {
+                    Name = (string)(from a in DisplayAttribute.NamedArguments
+                                     where a.MemberName == "Name"
+                                     select a.TypedValue.Value).FirstOrDefault(); //(string)DisplayAttribute.NamedArguments[0].TypedValue.Value;
+
+                var valor = (from a in DisplayAttribute.NamedArguments
+                             where a.MemberName == "AutoGenerateField"
+                             select a.TypedValue.Value).FirstOrDefault();
+
+                Show = (bool)(valor ?? true);
+
+                if (ViewBag.Include != null)
+                {
+                    string[] Include = ViewBag.Include;
+                    if (Include.Contains(it.Name))
+                    {
+                        Show = true;
+                    }
+                }
+
+                    //DisplayAttribute.NamedArguments.Select(a => a.MemberName == "AutoGenerateField").FirstOrDefault(); // DisplayAttribute.NamedArguments[1].TypedValue.Value;
+
+                    if (ViewBag.Exclude != null)
+                    {
+                        string[] Exclude = ViewBag.Exclude;
+                        if (Exclude.Contains(it.Name))
+                        {
+                            Show = false;
+                        }
+                    }
+                }
+                Name = (Name ?? it.Name);
+
+                int? largo = null;
+                //largo = (new string[] { "System.Decimal", "System.Int" }.Contains(it.PropertyType.ToString())) ? (int?)20 : null;
+                //largo = (it.PropertyType.ToString() == "System.DateTime") ? 20 : largo;
+
+                //System.Reflection.CustomAttributeData StringLengt = key_pro.SingleOrDefault(m => m.Key == "StringLengthAttribute").Value;
+                //if (StringLengt != null)
+                //{
+                //    var longitud = StringLengt.ConstructorArguments[0].Value;
+                //    largo = (int)(longitud ?? 0);
+                //}
+
+                if (Show)
+                {
+                    if (Orden == "")
+                    {
+                        <th @(largo!=null ? " style = 'width':" + largo + "px" : "")>@Name</th>
+                    }
+                    else
+                    {
+                        var CamposO = Orden.Split(',');
+                        <th>@CamposO[IndexC]</th>
+                        IndexC++;
+                    }
+
+                }
+
+            }
+
+            @if (!BotonesInicio && ConBotones)
+            {
+                <th data-sortable="false"></th>
+            }               
+          
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            @if (BotonesInicio && ConBotones)
+            {
+                <th data-sortable="false"></th>
+            }
+            @foreach (var it in type.GetProperties())
+			{
+				IEnumerable<KeyValuePair<string,  System.Reflection.CustomAttributeData>> key_pro = (from p in it.CustomAttributes
+																									 select new KeyValuePair<string, System.Reflection.CustomAttributeData>(p.AttributeType.Name, p));
+				string Name = null;
+				bool Show = true;
+				System.Reflection.CustomAttributeData DisplayAttribute = key_pro.SingleOrDefault(m => m.Key == "DisplayAttribute").Value;
+				if(DisplayAttribute!=null)
+				{
+					Name = (string)(from a in DisplayAttribute.NamedArguments
+									where a.MemberName == "Name"
+									select a.TypedValue.Value).FirstOrDefault();
+
+					var valor = (from a in DisplayAttribute.NamedArguments
+								 where a.MemberName == "AutoGenerateField"
+								 select a.TypedValue.Value).FirstOrDefault();
+					Show = (bool)(valor??true);
+
+					if (ViewBag.Include != null)
+					{
+						string[] Include = ViewBag.Include;
+						if (Include.Contains(it.Name))
+						{
+							Show = true;
+						}
+					}
+					if (ViewBag.Exclude != null)
+					{
+						string[] Exclude = ViewBag.Exclude;
+						if (Exclude.Contains(it.Name))
+						{
+							Show = false;
+						}
+					}
+				}
+
+				Name = (Name ?? it.Name);
+
+				int? largo = null;
+				//largo = (new string[] { "System.Decimal", "System.Int" }.Contains(it.PropertyType.ToString())) ? (int?)20 : null;
+				//largo = (it.PropertyType.ToString() == "System.DateTime") ? 20 : largo;
+
+				//System.Reflection.CustomAttributeData StringLengt = key_pro.SingleOrDefault(m => m.Key == "StringLengthAttribute").Value;
+				//if (StringLengt != null)
+				//{
+				//    var longitud = StringLengt.ConstructorArguments[0].Value;
+				//    largo = (int)(longitud ?? 0);
+				//}
+
+				if (Show)
+				{
+                  <th >@Name</th>   
+                }
+                                   
+            }
+            @if (!BotonesInicio && ConBotones)
+            {
+                <th data-sortable="false"></th>
+            }    
+        </tr>
+    </tfoot>
+    <tbody>
+ 
+   </tbody>
+</table>
